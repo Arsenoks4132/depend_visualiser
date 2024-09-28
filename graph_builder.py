@@ -8,19 +8,25 @@ from subprocess import call
 class GraphBuilder:
     def __init__(self):
         self.href = 'https://repo1.maven.org/maven2/'
-        self.start = True
         self.lines = set()
         if 'cache' not in listdir('.'):
             makedirs('cache')
 
     def build_url(self, package: dict[str, str]):
-        url = (f"{self.href}{'/'.join(package['group'].split('.'))}/"
-               f"{package['artifact']}/{package['version']}/"
-               f"{package['artifact']}-{package['version']}.pom")
+        try:
+            url = (f"{self.href}{'/'.join(package['group'].split('.'))}/"
+                   f"{package['artifact']}/{package['version']}/"
+                   f"{package['artifact']}-{package['version']}.pom")
+        except KeyError:
+            print('Неправильный словарь с параметрами пакета')
+            return ''
         return url
 
     def load_xml(self, package: dict[str, str]):
         f_name = f"{package['artifact']}_{package['version']}.xml"
+
+        if 'cache' not in listdir('.'):
+            makedirs('cache')
 
         if f_name not in listdir('cache'):
             url = self.build_url(package)
@@ -37,20 +43,27 @@ class GraphBuilder:
 
     def build_graph(self, code: str, package: dict[str, str]):
         graph_code = ('@startuml\n\n\n' +
-                      self.__build_graph(package) +
+                      self._build_graph(package) +
                       '\n\n@enduml')
+
         with open(code, 'wt') as file:
             file.write(graph_code)
 
         self.lines = set()
 
-    def __build_graph(self, package: dict[str, str]):
-        pom = self.load_xml(package)
-        line = f"{package['artifact']}: {package['version']}\n\n".replace('-', '_')
+    def _build_graph(self, package: dict[str, str]):
+        try:
+            line = f"{package['artifact']}: {package['version']}\n\n".replace('-', '_')
+        except KeyError:
+            print('Неправильный словарь с параметрами пакета')
+            return ''
+
         graph_code = ''
         if line not in self.lines:
             graph_code = line
             self.lines.add(line)
+
+        pom = self.load_xml(package)
 
         for dp in pom.findall('dependencies/dependency'):
             pkg = dict()
@@ -60,9 +73,12 @@ class GraphBuilder:
                 if optional.text == 'true':
                     continue
 
-            pkg['group'] = dp.find('groupId').text
-            pkg['artifact'] = dp.find('artifactId').text
-            pkg['version'] = dp.find('version').text
+            try:
+                pkg['group'] = dp.find('groupId').text
+                pkg['artifact'] = dp.find('artifactId').text
+                pkg['version'] = dp.find('version').text
+            except AttributeError:
+                continue
 
             art_from = package['artifact'].replace('-', '_')
             art_to = pkg['artifact'].replace('-', '_')
@@ -72,9 +88,10 @@ class GraphBuilder:
                 graph_code += line
                 self.lines.add(line)
 
-            graph_code += self.__build_graph(pkg)
+            graph_code += self._build_graph(pkg)
 
         return graph_code
 
-    def draw_graph(self, code, p_uml):
+    @staticmethod
+    def draw_graph(code, p_uml):
         call(['java', '-jar', p_uml, code])
