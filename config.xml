@@ -1,0 +1,7 @@
+<config>
+    <PlantUml>PlantUml/plantuml-1.2024.7.jar</PlantUml>
+    <group>org.springframework</group>
+    <artifact>spring-webmvc</artifact>
+    <version>6.1.6</version>
+    <code>PlantUml/graph.txt</code>
+</config>

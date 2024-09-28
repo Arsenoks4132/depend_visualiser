@@ -1,0 +1,25 @@
+@startuml
+title Выплата платежа - статусы транзакций
+
+INITIAL -down-> LIMITS_OK
+LIMITS_OK -down-> WAITING_SMS_CONFIRMATION
+WAITING_SMS_CONFIRMATION -down-> READY
+READY -down-> SENT_TO_PAYSYSTEM
+READY -down-> DECLINED_BY_PAYSYSTEM
+SENT_TO_PAYSYSTEM -down-> PAID
+
+
+INITIAL: Платеж создан
+LIMITS_EXCEED : Лимиты превышены
+LIMITS_OK : Лимиты пройдены
+WAITING_SMS_CONFIRMATION: Ожидание OTP
+SENT_TO_PAYSYSTEM: Отправлен в платежную систему
+PAID: Выплачен
+READY: Платеж готов к отправке в платежную систему
+DECLINED_BY_PAYSYSTEM: Платеж отклонен платежной системой
+
+INITIAL -down-> LIMITS_EXCEED
+
+
+
+@enduml
