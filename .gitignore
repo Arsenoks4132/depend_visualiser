@@ -1,13 +1,6 @@
-/cache/micrometer-commons_1.12.5.xml
-/cache/micrometer-observation_1.12.5.xml
-/cache/spring-aop_6.1.6.xml
-/cache/spring-beans_6.1.6.xml
-/cache/spring-context_6.1.6.xml
-/cache/spring-core_6.1.6.xml
-/cache/spring-expression_6.1.6.xml
-/cache/spring-jcl_6.1.6.xml
-/cache/spring-web_6.1.6.xml
-/cache/spring-webmvc_6.1.6.xml
+/cache/
+/.idea/
+/venv/
+/__pycache__/
 /PlantUml/graph.png
 /PlantUml/graph.txt
-/PlantUml/reference.png
