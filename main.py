@@ -19,8 +19,8 @@ def main(args):
 
     try:
         p_uml = root.find('PlantUml').text
-        package['group'] = root.find('group').text
-        package['artifact'] = root.find('artifact').text
+        package['group'] = root.find('groupId').text
+        package['artifact'] = root.find('artifactId').text
         package['version'] = root.find('version').text
         code = root.find('code').text
     except AttributeError:
