@@ -2,6 +2,7 @@ from requests import get
 import xml.etree.ElementTree as et
 from re import sub
 from os import listdir
+from subprocess import call
 
 
 class GraphBuilder:
@@ -73,14 +74,5 @@ class GraphBuilder:
 
         return graph_code
 
-    # def get_pom(self, href):
-    #     xml = get(href)
-    #     with open('temp.xml', 'wt') as file:
-    #         text = sub(' xmlns="[^"]+"', '', xml.text, count=1)
-    #         file.write(text)
-    #
-    #     root = et.parse('temp.xml').getroot()
-    #     for dp in root.findall('dependencies/dependency'):
-    #         group = dp.find('groupId').text
-    #         artifact = dp.find('artifactId').text
-    #         version = dp.find('version').text
+    def draw_graph(self, code, p_uml):
+        call(['java', '-jar', p_uml, code])

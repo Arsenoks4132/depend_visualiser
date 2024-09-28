@@ -20,6 +20,7 @@ def main():
 
         builder = GraphBuilder()
         builder.build_graph(code, package)
+        builder.draw_graph(code, p_uml)
 
     else:
         print('Не указан путь к конфигурационному файлу')
