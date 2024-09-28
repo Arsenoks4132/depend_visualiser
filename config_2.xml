@@ -1,7 +1,7 @@
 <config>
     <PlantUml>PlantUml/plantuml-1.2024.7.jar</PlantUml>
-    <group>aws.smithy.kotlin</group>
-    <artifact>http-jvm</artifact>
-    <version>1.3.12</version>
     <code>PlantUml/graph_2.txt</code>
+    <groupId>aws.smithy.kotlin</groupId>
+    <artifactId>http-jvm</artifactId>
+    <version>1.3.14</version>
 </config>
