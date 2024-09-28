@@ -15,12 +15,18 @@ py main.py <config_file>
 ```xml
 <config>
     <PlantUml>PlantUml/plantuml-1.2024.7.jar</PlantUml>
-    <group>org.springframework</group>
-    <artifact>spring-webmvc</artifact>
-    <version>6.1.6</version>
     <code>PlantUml/graph.txt</code>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>6.1.6</version>
 </config>
 ```
+
+Где:
+
+- **PlantUml** - Путь к программе отрисовки графа
+- **code** - Путь к файлу-результату в виде кода
+- **groupId**, **artifactId**, **version** - Характеристики пакета с сайта [Maven](https://mvnrepository.com/)
 
 # Примеры работы
 
