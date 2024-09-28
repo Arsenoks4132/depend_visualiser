@@ -1,7 +1,7 @@
 from requests import get
 import xml.etree.ElementTree as et
 from re import sub
-from os import listdir
+from os import listdir, makedirs
 from subprocess import call
 
 
@@ -10,6 +10,8 @@ class GraphBuilder:
         self.href = 'https://repo1.maven.org/maven2/'
         self.start = True
         self.lines = set()
+        if 'cache' not in listdir('.'):
+            makedirs('cache')
 
     def build_url(self, package: dict[str, str]):
         url = (f"{self.href}{'/'.join(package['group'].split('.'))}/"
