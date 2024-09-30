@@ -134,7 +134,7 @@ spring_jcl: 6.1.6
 @enduml'''
          ),
         ('PlantUml/graph.txt',
-         {'group': 'org', 'artifact': 'spring'},
+         {'group': 'org', 'artifact': 'spring', 'version': '123'},
          '@startuml\n\n\n\n\n@enduml'
          )
     ]
@@ -163,7 +163,7 @@ spring_jcl: 6.1.6
 
 '''
          ),
-        ({'group': 'org', 'artifact': 'spring'},
+        ({'group': 'org', 'artifact': 'spring', 'version': '123'},
          ''
          )
     ]
@@ -175,7 +175,7 @@ def test_build_graph_pr(builder, package, expected):
 @pytest.mark.parametrize(
     'code, p_uml', [
         ('PlantUml/graph.txt', 'PlantUml/plantuml-1.2024.7.jar'),
-        ('PlantUml/image.txt', 'PlantUml/plantuml-1.2024.7.jar')
+        ('PlantUml/graph_2.txt', 'PlantUml/plantuml-1.2024.7.jar')
     ]
 )
 def test_draw_graph(code, p_uml):
