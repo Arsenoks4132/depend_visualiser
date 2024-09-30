@@ -2,6 +2,7 @@
 /.idea/
 /venv/
 /__pycache__/
+/.pytest_cache/
 /PlantUml/graph.png
 /PlantUml/graph.txt
 /PlantUml/graph_2.png
