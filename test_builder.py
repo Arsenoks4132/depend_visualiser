@@ -1,7 +1,6 @@
 import pytest
 from shutil import rmtree
 from os import listdir, makedirs
-from sys import argv
 
 from graph_builder import GraphBuilder
 from main import main
@@ -41,7 +40,7 @@ def test_init_1(arg):
             rmtree('cache')
         else:
             makedirs('cache')
-    gb = GraphBuilder()
+    GraphBuilder()
     assert ('cache' in listdir('.'))
 
 
@@ -75,7 +74,7 @@ def test_build_url(builder, arg, expected, capfd):
     if 'group' in arg:
         assert builder.build_url(arg) == expected
     else:
-        url = builder.build_url(arg)
+        builder.build_url(arg)
         out, err = capfd.readouterr()
         assert out == expected
 
