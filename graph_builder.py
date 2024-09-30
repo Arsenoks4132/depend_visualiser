@@ -39,7 +39,6 @@ class GraphBuilder:
         if f_name not in listdir('cache'):
             url = self.build_url(package)
             package_pom = get(url)
-            print(url)
             if package_pom.status_code == 200:
                 with open(f'cache/{f_name}', 'wt') as file:
                     text = sub(' xmlns="[^"]+"', '', package_pom.text, count=1)
@@ -64,7 +63,7 @@ class GraphBuilder:
         package['version'] = self.fix_version(package['version'])
 
         try:
-            line = f"{package['artifact']}: {package['version']}\n\n".replace('-', '_').replace('.', '_')
+            line = f"{package['artifact'].replace('.', '_')}: {package['version']}\n\n".replace('-', '_')
         except KeyError:
             print('Неправильный словарь с параметрами пакета')
             return ''
