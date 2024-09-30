@@ -2,6 +2,7 @@ from requests import get
 import xml.etree.ElementTree as et
 from re import sub
 from os import listdir, makedirs
+from shutil import rmtree
 from subprocess import call
 
 
@@ -9,6 +10,13 @@ class GraphBuilder:
     def __init__(self):
         self.href = 'https://repo1.maven.org/maven2/'
         self.lines = set()
+        if 'cache' not in listdir('.'):
+            makedirs('cache')
+
+    @staticmethod
+    def clear_cache():
+        if 'cache' in listdir('.'):
+            rmtree('cache')
         if 'cache' not in listdir('.'):
             makedirs('cache')
 
@@ -31,6 +39,7 @@ class GraphBuilder:
         if f_name not in listdir('cache'):
             url = self.build_url(package)
             package_pom = get(url)
+            print(url)
             if package_pom.status_code == 200:
                 with open(f'cache/{f_name}', 'wt') as file:
                     text = sub(' xmlns="[^"]+"', '', package_pom.text, count=1)
@@ -52,8 +61,10 @@ class GraphBuilder:
         self.lines = set()
 
     def _build_graph(self, package: dict[str, str]):
+        package['version'] = self.fix_version(package['version'])
+
         try:
-            line = f"{package['artifact']}: {package['version']}\n\n".replace('-', '_')
+            line = f"{package['artifact']}: {package['version']}\n\n".replace('-', '_').replace('.', '_')
         except KeyError:
             print('Неправильный словарь с параметрами пакета')
             return ''
@@ -64,6 +75,9 @@ class GraphBuilder:
             self.lines.add(line)
 
         pom = self.load_xml(package)
+
+        if not pom:
+            return ''
 
         for dp in pom.findall('dependencies/dependency'):
             pkg = dict()
@@ -80,8 +94,8 @@ class GraphBuilder:
             except AttributeError:
                 continue
 
-            art_from = package['artifact'].replace('-', '_')
-            art_to = pkg['artifact'].replace('-', '_')
+            art_from = package['artifact'].replace('-', '_').replace('.', '_')
+            art_to = pkg['artifact'].replace('-', '_').replace('.', '_')
 
             line = f"{art_from} -down-> {art_to}\n\n"
             if line not in self.lines:
@@ -92,6 +106,10 @@ class GraphBuilder:
 
         return graph_code
 
+    def fix_version(self, version):
+        if '[' in version:
+            version = version[1:version.find(',')]
+        return version
     @staticmethod
     def draw_graph(code, p_uml):
         call(['java', '-jar', p_uml, code])

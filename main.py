@@ -26,6 +26,10 @@ def main(args):
     except AttributeError:
         print('Неверные параметры конфигурации')
         return
+
+    if len(args) > 2 and args[2] == '--clear-cache':
+        GraphBuilder.clear_cache()
+
     builder = GraphBuilder()
     builder.build_graph(code, package)
     GraphBuilder.draw_graph(code, p_uml)
