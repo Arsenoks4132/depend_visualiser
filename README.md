@@ -72,11 +72,10 @@ coverage report
 
 ![image](https://github.com/user-attachments/assets/ebeb1bb7-4919-416b-9a2b-2b4b5fc059a1)
 
+![image](https://github.com/user-attachments/assets/932f0cc0-1bab-4ddf-9e60-f4cf65f384f9)
+
 # Тесты
 
 Результаты покрытия тестами:
 
 ![image](https://github.com/user-attachments/assets/7ae88fce-ed04-4512-a6e3-c13ea7485c45)
-
-![image](https://github.com/user-attachments/assets/932f0cc0-1bab-4ddf-9e60-f4cf65f384f9)
-
